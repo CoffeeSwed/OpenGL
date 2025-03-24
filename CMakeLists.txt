@@ -9,13 +9,13 @@ project (OpenGL
 add_executable(${PROJECT_NAME} OpenGL.cpp 
 Window/NWindow.cpp Window/NWindow.h 
 Window/NDebug/NDebug.cpp Window/NDebug/NDebug.h
-NMatrix/NVector/NVector.cpp NMatrix/NVector/NVector.h
-NMatrix/NVector/VectorArray.cpp NMatrix/NVector/VectorArray.h
-NMatrix/NVector/VectorTypes/Vector2.h NMatrix/NVector/VectorTypes/Vector2.cpp
-NMatrix/NVector/VectorTypes/Vector3.h NMatrix/NVector/VectorTypes/Vector3.cpp
-NMatrix/NVector/VectorTypes/Vector4.h NMatrix/NVector/VectorTypes/Vector4.cpp
+NMatrix/NMatrix.cpp NMatrix/NMatrix.h
+NAllocator/NAllocator.cpp NAllocator/NAllocator.h
+NAllocator/MemoryChunk.cpp NAllocator/MemoryChunk.h
+NAllocator/AllocatedMemory.cpp NAllocator/AllocatedMemory.h
+
 tests/test_NDebug.cpp
-tests/test_NVector.cpp
+tests/test_NMatrix.cpp
 OS/MemoryStatus.h OS/MemoryStatus.cpp
 
 )
