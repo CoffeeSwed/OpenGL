@@ -11,6 +11,9 @@
 #include <cstdint>
 #include <vector>
 #include "MemoryChunk.h"
+#include <algorithm>
+#include <sstream>
+#include <ios>
 class NAllocator {
 	std::vector<MemoryChunk*> chunks;
 	AllocatedMemory* getAllocation(size_t size);

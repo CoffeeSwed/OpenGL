@@ -27,28 +27,33 @@ MemoryChunk::~MemoryChunk() {
 
 AllocatedMemory* MemoryChunk::allocate(size_t size){
 	AllocatedMemory* allocation = (AllocatedMemory*)this->location;
-
 	while((uint_fast64_t)allocation < ((uint_fast64_t)this->location+(uint_fast64_t)this->size)){
-		/*IF not allocated!*/
-		if(allocation->size_allocated == 0)
-		{
-			//Has enough space to allocate wished size plus overhead
-			if(allocation->size >= sizeof(AllocatedMemory) + size){
 
-				size_t remains = allocation->size - size - sizeof(AllocatedMemory);
-				allocation->size_allocated = size + sizeof(AllocatedMemory);
-				allocation->size = allocation->size_allocated;
+		if(allocation->size - allocation->size_allocated >= size+sizeof(AllocatedMemory)){
+			this->allocations++;
 
-				AllocatedMemory* next = (AllocatedMemory*)((uint_fast64_t)allocation+allocation->size);
-				next->size_allocated = 0;
-				next->size = remains;
-				next->prev = allocation;
-				next->owner = allocation->owner;
-				this->allocations += 1;
+			if(allocation->size_allocated != 0){
+				AllocatedMemory* previous = allocation;
+				allocation = (AllocatedMemory*)((uint_fast64_t)previous+(uint_fast64_t)previous->size_allocated);
+				allocation->size = previous->size - previous->size_allocated;
+				previous->size = previous->size_allocated;
+				allocation->prev = previous;
+				allocation->size_allocated = size+sizeof(AllocatedMemory);
+				allocation->owner = previous->owner;
+				AllocatedMemory* next = (AllocatedMemory*)((uint_fast64_t)allocation+(uint_fast64_t)allocation->size);
+				if((uint_fast64_t)next < ((uint_fast64_t)this->location+(uint_fast64_t)this->size)){
+					next->prev = allocation;
+				}
+				return allocation;
+			}else{
+				allocation->size_allocated = size+sizeof(AllocatedMemory);
 				return allocation;
 			}
 		}
-
+		
+		
+		if(allocation->size == 0)
+			break;
 		allocation = (AllocatedMemory*)((uint_fast64_t)allocation+allocation->size);
 	}
 
@@ -56,5 +61,16 @@ AllocatedMemory* MemoryChunk::allocate(size_t size){
 }
 
 void MemoryChunk::unallocate(AllocatedMemory* allocation){
-
+	if(allocation == this->location){
+		allocation->size_allocated = 0;
+	}else{
+		AllocatedMemory* next = (AllocatedMemory*)((uint_fast64_t)allocation+(uint_fast64_t)allocation->size);
+		if((uint_fast64_t)next < ((uint_fast64_t)this->location+(uint_fast64_t)this->size)){
+			next->prev = allocation->prev;
+		}
+		allocation->prev->size += allocation->size;
+		//std::cout << "previous : " << std::to_string((uint_fast64_t)allocation->prev) << "\n";
+	}
+	this->allocations--;
+	
 }

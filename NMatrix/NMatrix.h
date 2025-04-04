@@ -8,6 +8,7 @@
 #ifndef NMATRIX_NMATRIX_H_
 #define NMATRIX_NMATRIX_H_
 #include <cstdlib>
+#include <cmath>
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
@@ -28,7 +29,7 @@ public:
 	NMatrix(NMatrix &&other);
 	NMatrix& operator=(const NMatrix &other);
 	NMatrix& operator=(NMatrix &&other);
-	EqualReturnRes isSameMatrix(NMatrix *other);
+	EqualReturnRes isSameMatrix(NMatrix *other, double margins = 0);
 	std::string toString();
 
 	NMatrix getTranspose();
@@ -36,8 +37,28 @@ public:
 	uint getRow(uint index);
 	uint getColumn(uint index);
 	NMatrix getMinor(uint row, uint column);
+	double getCoFactor(uint row, uint column);
 	double getDeterminant();
 	uint getElements();
+	uint getRows(), getColumns();
+	void applyScalar(double scalar);
+
+
+	NMatrix multiply(NMatrix other);
+	NMatrix terminateColumn(uint column);
+	NMatrix terminateRow(uint row);
+	NMatrix appendRow(double* values);
+
+	NMatrix getAdjoint();
+	NMatrix getInverse();
+	static NMatrix createTranslation3D(double r, double s, double t);
+	static NMatrix createTranslation2D(double r, double s);
+	
+	static NMatrix createRotation2D(double r);
+	static NMatrix createRotation3DX(double r);
+	static NMatrix createRotation3DY(double r);
+	static NMatrix createRotation3DZ(double r);
+
 };
 
 #endif /* NMATRIX_NMATRIX_H_ */

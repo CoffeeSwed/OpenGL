@@ -28,6 +28,7 @@ AllocatedMemory* NAllocator::getAllocation(size_t size){
 		if(piece != NULL){
 			if(this->chunks[index-1]->allocations == 1)
 				this->empty_chunks = this->empty_chunks - 1;
+
 			return piece;
 		}
 	}
@@ -38,13 +39,25 @@ AllocatedMemory* NAllocator::getAllocation(size_t size){
 
 NAllocator::~NAllocator() {
 	// TODO Auto-generated destructor stub
-	this->chunks.clear();
+	while(this->chunks.size() > 0){
+		MemoryChunk* chunk = this->chunks[this->chunks.size()-1];
+		std::vector<MemoryChunk*>::iterator position = std::find(this->chunks.begin(), this->chunks.end(), chunk);
+		if(position != this->chunks.end()){
+			this->chunks.erase(position);
+		}
+		delete(chunk);
+	}
 }
 
 void* NAllocator::allocate(size_t size){
 	uint_fast64_t pos = (uint_fast64_t)this->getAllocation(size);
+	AllocatedMemory* memorypart = (AllocatedMemory*)pos;
+
+	//std::cout << "Allocated : " << std::to_string(pos) << "\n";
 
 	pos += sizeof(AllocatedMemory);
+
+	//std::cout << "Memorypart : \n" << memorypart->toString() << "\n";
 
 	return (void*)pos;
 }
@@ -52,14 +65,29 @@ void* NAllocator::allocate(size_t size){
 void NAllocator::unallocate(void*_address){
 	uint_fast64_t address = (uint_fast64_t)_address;
 	if(address != 0){
+		//std::cout << "Unallocated : " << std::to_string(address) << "\n";
+
 		address = address - (uint_fast64_t)sizeof(AllocatedMemory);
+
 		AllocatedMemory* alloc = (AllocatedMemory*)address;
+
+		//std::cout << "Memorypart : \n" << alloc->toString() << "\n";
 		MemoryChunk* chunk = (MemoryChunk*)alloc->owner;
 		chunk->unallocate(alloc);
 		if(chunk->allocations == 0)
-			this->empty_chunks += 1;
-	}
+			this->empty_chunks++;
 
+		if(chunk->allocations == 0 && this->empty_chunks > 1){
+			std::vector<MemoryChunk*>::iterator position = std::find(this->chunks.begin(), this->chunks.end(), chunk);
+			if(position != this->chunks.end()){
+				this->chunks.erase(position);
+			}
+			delete(chunk);
+			this->empty_chunks--;
+		}
+		
+	}
+	
 
 
 }
