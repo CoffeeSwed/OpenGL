@@ -51,13 +51,7 @@ public:
 
 	NMatrix getAdjoint();
 	NMatrix getInverse();
-	static NMatrix createTranslation3D(double r, double s, double t);
-	static NMatrix createTranslation2D(double r, double s);
-	
-	static NMatrix createRotation2D(double r);
-	static NMatrix createRotation3DX(double r);
-	static NMatrix createRotation3DY(double r);
-	static NMatrix createRotation3DZ(double r);
+
 
 };
 

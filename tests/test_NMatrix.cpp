@@ -291,27 +291,3 @@ TEST(NMatrixGetInverse,positive){
 	std::string expected = "{1.000000, -0.000000, 0.000000\n0.000000, 1.000000, 0.000000\n0.000000, -0.000000, 1.000000}";
 	EXPECT_EQ(str == expected,1);
 }
-
-TEST(Rotation2DTestAndTranslation,positive){
-	NMatrix position = NMatrix(2,2,(double[]){
-		69,0,
-		69,0
-	});
-	std::setprecision(20);
-	NMatrix rotation = NMatrix::createRotation2D(std::numbers::pi);
-	position = position.multiply(rotation);
-	NMatrix expected = NMatrix(2,2,(double[]){
-		-69,0,
-		-69,0
-	});
-	EXPECT_EQ(expected.isSameMatrix(&position,0.000000001),NMatrix::EqualReturnRes::REPRESENT_SAME);
-	NMatrix translation = NMatrix::createTranslation2D(70,70);
-	position = translation.multiply(position.terminateColumn(1).appendRow((double[]){1}));
-	
-	expected = NMatrix(3,1,(double[]){
-		1,
-		1,
-		1
-	});
-	EXPECT_EQ(expected.isSameMatrix(&position,0.1),NMatrix::EqualReturnRes::REPRESENT_SAME);
-}

@@ -9,6 +9,7 @@
 #define WINDOW_NWINDOW_H_
 #include <GLFW/glfw3.h>
 #include <stdexcept>
+#include <iostream>
 
 
 class NWindow {

@@ -22,7 +22,12 @@ void NWindow::startup(){
 		throw std::invalid_argument("glfwInit failed!");
 	}
 	else{
+		if(glfwPlatformSupported(GLFW_PLATFORM_WAYLAND) && glfwPlatformSupported(GLFW_PLATFORM_X11)) {
+            glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
 
+		}else{
+			
+		}
 	}
 }
 

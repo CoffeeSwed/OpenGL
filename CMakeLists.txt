@@ -13,10 +13,14 @@ NMatrix/NMatrix.cpp NMatrix/NMatrix.h
 NAllocator/NAllocator.cpp NAllocator/NAllocator.h
 NAllocator/MemoryChunk.cpp NAllocator/MemoryChunk.h
 NAllocator/AllocatedMemory.cpp NAllocator/AllocatedMemory.h
+Graphics/Translations.cpp Graphics/Translations.h
+Logger/Logger.cpp Logger/Logger.h
 
 tests/test_NDebug.cpp
 tests/test_NMatrix.cpp
 OS/MemoryStatus.h OS/MemoryStatus.cpp
+tests/tests_Translations.cpp
+tests/tests_Logger.cpp
 
 )
 add_subdirectory(glfw-3.4)
