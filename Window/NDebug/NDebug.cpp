@@ -89,6 +89,17 @@ void NDebug::inform(NDebugType t, std::string message, bool lock){
 	}
 }
 
+void NDebug::info(std::string message){
+	this->inform(NDebugType::INFO,message);
+}
+
+void NDebug::error(std::string message){
+	this->inform(NDebugType::ERROR,message);
+}
+void NDebug::warning(std::string message){
+	this->inform(NDebugType::WARNING,message);
+}
+
 
 NDebug::~NDebug() {
 	// TODO Auto-generated destructor stub

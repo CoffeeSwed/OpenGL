@@ -38,6 +38,9 @@ class NDebug {
 	virtual ~NDebug();
 
 	void inform(NDebugType, std::string message, bool lock=true);
+	void info(std::string message);
+	void error(std::string message);
+	void warning(std::string message);
 	void flush(bool lock=true);
 
 	private:

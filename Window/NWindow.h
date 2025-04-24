@@ -10,6 +10,8 @@
 #include <GLFW/glfw3.h>
 #include <stdexcept>
 #include <iostream>
+#include "NDebug/NDebug.h"
+#include <cstdio>
 
 
 class NWindow {
@@ -17,6 +19,10 @@ public:
 	NWindow();
 	void startup();
 	~NWindow();
+	void run();
+	virtual void update();
+	NDebug* debugger;
+	GLFWwindow* window;
 };
 
 #endif /* WINDOW_NWINDOW_H_ */

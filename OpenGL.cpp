@@ -11,4 +11,5 @@ GTEST_API_ int main(int argc, char **argv) {
 	std::cout << "Virtual Memory usage : " << std::to_string(memory) << "KB\n";
 	NWindow window = NWindow();
 	window.startup();
+	window.run();
 }
