@@ -3,7 +3,7 @@ set (CMAKE_CXX_STANDARD 20)
 # Set some basic project attributes
 project (OpenGL
 	VERSION 0.1
-	DESCRIPTION "A Hello World Project")
+	DESCRIPTION "Normans OpenGL project.")
 
 # This project will output an executable file
 add_executable(${PROJECT_NAME} OpenGL.cpp 
